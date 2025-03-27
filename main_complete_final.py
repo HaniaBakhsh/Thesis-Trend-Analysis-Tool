@@ -1,30 +1,28 @@
-
 import pandas as pd
 import numpy as np
 import re
-#import os
 import streamlit as st
 from jinja2 import Template
 from bs4 import BeautifulSoup
 from sklearn.cluster import KMeans
 from sentence_transformers import SentenceTransformer
 from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
-from nltk.tokenize import PunktSentenceTokenizer, word_tokenize
+from nltk.tokenize import word_tokenize, PunktSentenceTokenizer
 import os
+import nltk
 
-# Load the tokenizer manually from your nltk_data
+# Set the NLTK data path and load tokenizer manually
+nltk.data.path.append("nltk_data")
 tokenizer_path = os.path.join("nltk_data", "tokenizers", "punkt", "english.pickle")
-tokenizer = PunktSentenceTokenizer(open(tokenizer_path, "rb").read())
+with open(tokenizer_path, "rb") as f:
+    tokenizer = PunktSentenceTokenizer(f.read())
 
 from nltk.stem import WordNetLemmatizer
 from langdetect import detect
 from dotenv import load_dotenv
 import google.generativeai as genai
-import nltk
 import base64
 
-nltk.data.path.append("nltk_data")
 load_dotenv()
 
 def extract_english_abstract(text):
@@ -40,11 +38,14 @@ def is_english(text):
 
 def clean_text(text):
     text = re.sub(r'[^a-zA-Z\s]', '', text).lower()
-    words = word_tokenize(text)
     stop_words = set(stopwords.words('english')).union({"thesis", "study", "research", "result", "method", "approach", "process"})
-    words = [word for word in words if word not in stop_words and len(word) > 2]
-    lemmatizer = WordNetLemmatizer()
-    return " ".join([lemmatizer.lemmatize(word) for word in words])
+    words = []
+    for sentence in tokenizer.tokenize(text):
+        tokens = word_tokenize(sentence)
+        lemmatizer = WordNetLemmatizer()
+        filtered = [lemmatizer.lemmatize(word) for word in tokens if word not in stop_words and word.isalpha() and len(word) > 2]
+        words.extend(filtered)
+    return " ".join(words)
 
 def preprocess_csv(file):
     df = pd.read_csv(file)
@@ -65,7 +66,6 @@ def kmeans_clustering(embeddings, k):
     return kmeans.labels_
 
 def generate_topic(texts):
-    #api_key = os.getenv('GOOGLE_API_KEY')
     api_key = st.secrets["GOOGLE_API_KEY"]
     client = genai.Client(api_key=api_key)
     prompt = f"""
@@ -78,37 +78,18 @@ Abstracts:
 """
     try:
         response = client.models.generate_content(
-        model="gemini-2.0-flash",
-        contents=[prompt]
-    )
-        #return response.text.strip().replace("**", "")
-        ''' return response.text.strip().replace("**", "").replace("*", "").strip().split(".")[0][:60]
-    except Exception as e:
-        return "Unnamed Topic" '''
+            model="gemini-2.0-flash",
+            contents=[prompt]
+        )
         topic_name = response.text.strip()
-        
-                 # Clean: remove asterisks, special characters
-        
-        #topic_name = topic_name.replace("**", "").replace("*", "").strip()
-        #topic_name = re.sub(r"[^\w\s&-]", "", topic_name)
-        #topic_name = re.sub(r"[^a-zA-Z0-9\\s&\\-]", "", topic_name)
-        
-
-  # Clean: remove *, numbers, punctuation, symbols — keep only letters and spaces
         topic_name = topic_name.replace("**", "").replace("*", "").strip()
         topic_name = re.sub(r"[^a-zA-Z\s]", "", topic_name)
-        
-        # Truncate to max 8 words
         words = topic_name.split()
         if len(words) > 4:
             topic_name = " ".join(words[:8])
-        
-        # Fallback if result is empty or generic
         if not topic_name or topic_name.lower() in ["unnamed topic", ""]:
             topic_name = "Unnamed Topic"
-
         return topic_name
-
     except Exception:
         return "Unnamed Topic"
 
@@ -171,12 +152,11 @@ def run_trend_analysis(file, num_topics, template_path):
         name: len(theses_by_topic[name]) for name in theses_by_topic
     }
     filtered_df = trend_df[trend_df["Topic"].isin(topic_counts.keys())]
+    import plotly.express as px
     fig = px.line(
         filtered_df, x="Year", y="Count", color="Topic", markers=True,
         title="Topic Trends Over Time", color_discrete_sequence=px.colors.qualitative.Set1
     )
-    #plotly_json = fig.to_dict()
-    #plotly_json = json.dumps(fig, cls=PlotlyJSONEncoder)
     fig_bytes = fig.to_image(format="png")
     plot_b64 = base64.b64encode(fig_bytes).decode("utf-8")
     generate_html_report(insights, trend_df, html_path, template_path, theses_by_topic, topic_counts, plot_b64=plot_b64)
@@ -198,8 +178,5 @@ def run_topic_modeling(file, num_topics, template_path):
     topic_counts = {
         name: len(theses_by_topic[name]) for name in theses_by_topic
     }
-    #plotly_json = None
-    #generate_html_report(insights, trend_df, html_path, template_path, theses_by_topic, topic_counts, plotly_json)
-    
     generate_html_report(insights, trend_df, html_path, template_path, theses_by_topic, topic_counts, plot_b64=None)
     return df, insights, html_path
