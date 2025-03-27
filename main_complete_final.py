@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 import re
 import os
-#import plotly.express as px
 from jinja2 import Template
 from bs4 import BeautifulSoup
 from sklearn.cluster import KMeans
@@ -15,8 +14,6 @@ from langdetect import detect
 from dotenv import load_dotenv
 from google import genai
 import nltk
-''' import json
-from plotly.utils import PlotlyJSONEncoder '''
 import base64
 
 
