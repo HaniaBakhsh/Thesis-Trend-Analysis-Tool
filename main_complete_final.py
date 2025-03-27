@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import re
 import os
-import plotly.express as px
+#import plotly.express as px
 from jinja2 import Template
 from bs4 import BeautifulSoup
 from sklearn.cluster import KMeans
