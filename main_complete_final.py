@@ -68,9 +68,12 @@ def kmeans_clustering(embeddings, k):
     kmeans.fit(embeddings)
     return kmeans.labels_
 
+
 def generate_topic(texts):
     api_key = st.secrets["GOOGLE_API_KEY"]
-    client = genai.Client(api_key=api_key)
+    genai.configure(api_key=api_key)
+    model = genai.GenerativeModel("gemini-2.0-flash")
+    
     prompt = f"""
 Given the following thesis abstracts, assign a name for the general topic they represent.
 Avoid listing multiple topics.
@@ -80,10 +83,7 @@ Abstracts:
 {texts}
 """
     try:
-        response = client.models.generate_content(
-            model="gemini-2.0-flash",
-            contents=[prompt]
-        )
+        response = model.generate_content(prompt)
         topic_name = response.text.strip()
         topic_name = topic_name.replace("**", "").replace("*", "").strip()
         topic_name = re.sub(r"[^a-zA-Z\s]", "", topic_name)
