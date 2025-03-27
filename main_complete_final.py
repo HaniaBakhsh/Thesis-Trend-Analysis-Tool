@@ -13,7 +13,7 @@ from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 from langdetect import detect
 from dotenv import load_dotenv
-from google import genai
+from google.generativeai import genai
 import nltk
 import base64
 
