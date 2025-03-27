@@ -2,7 +2,8 @@
 import pandas as pd
 import numpy as np
 import re
-import os
+#import os
+import streamlit as st
 from jinja2 import Template
 from bs4 import BeautifulSoup
 from sklearn.cluster import KMeans
@@ -60,7 +61,8 @@ def kmeans_clustering(embeddings, k):
     return kmeans.labels_
 
 def generate_topic(texts):
-    api_key = os.getenv('GOOGLE_API_KEY')
+    #api_key = os.getenv('GOOGLE_API_KEY')
+    api_key = st.secrets["GOOGLE_API_KEY"]
     client = genai.Client(api_key=api_key)
     prompt = f"""
 Given the following thesis abstracts, assign a name for the general topic they represent.
