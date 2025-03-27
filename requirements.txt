@@ -11,3 +11,5 @@ python-dotenv
 langdetect
 openai
 google-generativeai
+kaleido
+
