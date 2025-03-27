@@ -10,6 +10,13 @@ from sklearn.cluster import KMeans
 from sentence_transformers import SentenceTransformer
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
+from nltk.tokenize import PunktSentenceTokenizer, word_tokenize
+import os
+
+# Load the tokenizer manually from your nltk_data
+tokenizer_path = os.path.join("nltk_data", "tokenizers", "punkt", "english.pickle")
+tokenizer = PunktSentenceTokenizer(open(tokenizer_path, "rb").read())
+
 from nltk.stem import WordNetLemmatizer
 from langdetect import detect
 from dotenv import load_dotenv
