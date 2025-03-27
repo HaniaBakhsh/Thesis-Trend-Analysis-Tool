@@ -39,12 +39,15 @@ def is_english(text):
 def clean_text(text):
     text = re.sub(r'[^a-zA-Z\s]', '', text).lower()
     stop_words = set(stopwords.words('english')).union({"thesis", "study", "research", "result", "method", "approach", "process"})
+    lemmatizer = WordNetLemmatizer()
     words = []
+
+    # Use manually loaded Punkt tokenizer for sentence splitting
     for sentence in tokenizer.tokenize(text):
-        tokens = word_tokenize(sentence)
-        lemmatizer = WordNetLemmatizer()
-        filtered = [lemmatizer.lemmatize(word) for word in tokens if word not in stop_words and word.isalpha() and len(word) > 2]
+        tokens = re.findall(r'\b[a-z]{3,}\b', sentence)  # Regex-based word tokenization
+        filtered = [lemmatizer.lemmatize(word) for word in tokens if word not in stop_words]
         words.extend(filtered)
+
     return " ".join(words)
 
 def preprocess_csv(file):
