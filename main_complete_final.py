@@ -18,9 +18,6 @@ import nltk
 import base64
 
 nltk.data.path.append("nltk_data")
-nltk.download('stopwords')
-nltk.download('punkt')
-nltk.download('wordnet')
 load_dotenv()
 
 def extract_english_abstract(text):
