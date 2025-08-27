@@ -10,6 +10,7 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize, PunktSentenceTokenizer
 import os
 import nltk
+import plotly.io as pio
 
 # Set the NLTK data path and load tokenizer manually
 nltk.data.path.append("nltk_data")
@@ -121,7 +122,7 @@ def prepare_trend_data(df):
     trend_data = df.groupby(["Year", "Topic"]).size().reset_index(name="Count")
     return trend_data
 
-def generate_html_report(insights, trend_df, output_path, template_path, theses_by_topic, topic_counts, plot_b64=None):
+def generate_html_report(insights, trend_df, output_path, template_path, theses_by_topic, topic_counts, plot_b64=None, chart_html=None):
     latest_year = trend_df["Year"].max() if not trend_df.empty else "N/A"
     sorted_topic_counts = dict(sorted(topic_counts.items(), key=lambda x: x[1], reverse=True))
     sorted_theses_by_topic = {k: theses_by_topic[k] for k in sorted_topic_counts.keys()}
@@ -130,6 +131,7 @@ def generate_html_report(insights, trend_df, output_path, template_path, theses_
     html_content = template.render(
         insights=insights,
         plot_b64=plot_b64,
+        chart_html=chart_html,
         latest_year=latest_year,
         topic_counts=sorted_topic_counts,
         theses_by_topic=sorted_theses_by_topic
@@ -160,9 +162,16 @@ def run_trend_analysis(file, num_topics, template_path):
         filtered_df, x="Year", y="Count", color="Topic", markers=True,
         title="Topic Trends Over Time", color_discrete_sequence=px.colors.qualitative.Set1
     )
-    fig_bytes = fig.to_image(format="png")
-    plot_b64 = base64.b64encode(fig_bytes).decode("utf-8")
-    generate_html_report(insights, trend_df, html_path, template_path, theses_by_topic, topic_counts, plot_b64=plot_b64)
+
+    chart_html = pio.to_html(
+        fig,
+        include_plotlyjs="cdn",
+        full_html=False,
+        config={"responsive": True, "displaylogo": False}
+    )
+    #fig_bytes = fig.to_image(format="png")
+    #plot_b64 = base64.b64encode(fig_bytes).decode("utf-8")
+    generate_html_report(insights, trend_df, html_path, template_path, theses_by_topic, topic_counts, chart_html=chart_html)
     return trend_df, insights, html_path, df
 
 def run_topic_modeling(file, num_topics, template_path):
