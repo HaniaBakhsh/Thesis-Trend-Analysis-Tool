@@ -169,8 +169,7 @@ def run_trend_analysis(file, num_topics, template_path):
         full_html=False,
         config={"responsive": True, "displaylogo": False}
     )
-    #fig_bytes = fig.to_image(format="png")
-    #plot_b64 = base64.b64encode(fig_bytes).decode("utf-8")
+
     generate_html_report(insights, trend_df, html_path, template_path, theses_by_topic, topic_counts, chart_html=chart_html)
     return trend_df, insights, html_path, df
 
