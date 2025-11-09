@@ -45,7 +45,7 @@ if uploaded_file and st.session_state.run:
     st.markdown("---")
     if analysis_mode == "Trend Analysis":
         with st.spinner("Processing trend analysis..."):
-            template_path = "trend_report_template_final.html"
+            template_path = "trend_report_template.html"
             trend_df, insights, html_path, df = run_trend_analysis(uploaded_file, num_topics, template_path)
 
             st.subheader("📝 Key Insights")
