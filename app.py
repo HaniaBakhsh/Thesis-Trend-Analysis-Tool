@@ -1,6 +1,6 @@
 
 import streamlit as st
-from main_complete_final import run_trend_analysis, run_topic_modeling
+from main_backend import run_trend_analysis, run_topic_modeling
 import pandas as pd
 import plotly.express as px
 
