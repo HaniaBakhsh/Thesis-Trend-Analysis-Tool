@@ -1,11 +1,11 @@
 
 # AI-Assisted Topic Modeling & Trend Detection Tool
 
-Author: Hania Bakhsh
+**Author**: Hania Bakhsh
 
-Affiliation: KTH Royal Institute of Technology, Sweden
+**Affiliation**: KTH Royal Institute of Technology, Sweden
 
-Thesis Title: AI-Assisted Topic Modeling for Academic Research: Evaluating AI Adoption through the Lens of Interpretability, Trust, and Legitimacy
+**Thesis Title**: AI-Assisted Topic Modeling for Academic Research: Evaluating AI Adoption through the Lens of Interpretability, Trust, and Legitimacy
 
 
 
