@@ -26,6 +26,24 @@ The tool is a proof-of-concept web app built with Python and Streamlit, combinin
 
 
 
+## Screenshots
+
+### Upload and Analysis Mode Selection
+![Upload Interface](images/upload_interface.png)
+
+### Topic Modeling Results
+![Topic Modeling Results](images/topic_modeling.png)
+
+### Trend Analysis Visualization
+![Trend Analysis](images/trend_analysis.png)
+
+### Example HTML Report Output
+![HTML Report](images/report_output.png)
+
+
+
+
+
 ## 2. Folder Structure
 
 | File or Folder               | Purpose                                                                                        |
