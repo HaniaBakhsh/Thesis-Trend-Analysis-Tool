@@ -1,5 +1,5 @@
 
-# Prototype Documentation: AI-Assisted Topic Modeling & Trend Detection Tool
+# AI-Assisted Topic Modeling & Trend Detection Tool
 
 Author: Hania Bakhsh
 
@@ -11,16 +11,10 @@ Thesis Title: AI-Assisted Topic Modeling for Academic Research: Evaluating AI Ad
 
 
 
-## 1. Overview
+This project is a research prototype developed as part of my Master's thesis at KTH Royal Institute of Technology.
 
-This prototype demonstrates how Artificial Intelligence (AI) can support academic literature analysis by automating topic modeling and trend detection in student theses.
-It was developed as part of a Master’s thesis at KTH and aims to enhance interpretability, foster user trust, and ensure contextual legitimacy in AI-assisted research systems.
+The tool analyzes academic thesis datasets to automatically identify research topics and visualize how these topics evolve over time. By combining semantic text embeddings with AI-assisted labeling, it provides an interpretable and interactive way to explore research trends.
 
-The tool is a proof-of-concept web app built with Python and Streamlit, combining:
-
-* Sentence-BERT embeddings (for semantic clustering)
-* Gemini API (for automated topic naming)
-* HTML report generation
 
 
 
@@ -34,17 +28,43 @@ The tool is a proof-of-concept web app built with Python and Streamlit, combinin
 ### Topic Modeling Results
 ![Topic Modeling Results](images/topic_modeling.png)
 
-### Trend Analysis Visualization
+### Trend Analysis
 ![Trend Analysis](images/trend_analysis.png)
 
-### Example HTML Report Output
-![HTML Report](images/report_output.png)
+
+
+
+
+## Overview
+
+The prototype demonstrates how AI techniques can support literature analysis by automating topic discovery and trend detection in academic texts.
+
+It is implemented as a lightweight web application built with Python and Streamlit. The app processes thesis abstracts, groups them into semantically similar clusters, and generates readable topic labels to help users interpret the results.
+
+Key components include:
+
+- **Sentence-BERT embeddings** for semantic text representation and clustering
+- **Gemini API** for generating human-readable topic names
+- **Interactive visualizations and HTML reports** for exploring and exporting results
 
 
 
 
 
-## 2. Folder Structure
+## Tech Stack
+
+- Python
+- Streamlit (web interface)
+- Sentence-BERT embeddings (semantic clustering)
+- Gemini API (AI-assisted topic labeling)
+- Plotly (interactive visualizations)
+- HTML report generation
+
+
+
+
+
+## Project Structure
 
 | File or Folder               | Purpose                                                                                        |
 | ---------------------------- | ---------------------------------------------------------------------------------------------- |
@@ -58,7 +78,7 @@ The tool is a proof-of-concept web app built with Python and Streamlit, combinin
 
 
 
-## 3. Installation and Setup
+## Installation and Setup
 
 ### Requirements
 
@@ -97,7 +117,7 @@ The tool is a proof-of-concept web app built with Python and Streamlit, combinin
 
 
 
-## 4. Obtaining a Gemini API Key
+## Obtaining a Gemini API Key
 
 1. Visit [https://makersuite.google.com/app/apikey](https://makersuite.google.com/app/apikey).
 2. Sign in with your Google account.
@@ -112,7 +132,7 @@ If deploying online, store it securely using Streamlit’s **Secrets Management*
 
 
 
-## 5. Hosting on Streamlit Cloud
+## Hosting on Streamlit Cloud
 
 To deploy the app so others can access it via a public link:
 
@@ -139,7 +159,7 @@ streamlit run app.py
 
 
 
-## 6. Input Format
+## Input Format
 
 The tool accepts a CSV file with the following columns:
 
@@ -155,7 +175,7 @@ The tool accepts a CSV file with the following columns:
 
 
 
-## 7. How to Use
+## How to Use
 
 1. Launch the app (`streamlit run app.py`).
 2. Upload your dataset (CSV format).
@@ -176,7 +196,7 @@ The tool accepts a CSV file with the following columns:
 
 
 
-## 8. Key Features
+## Key Features
 
 * Sentence-BERT embeddings for semantically coherent clustering
 * Gemini-based topic naming for readable, human-aligned labels
@@ -189,7 +209,7 @@ The tool accepts a CSV file with the following columns:
 
 
 
-## 9. Ethical and Practical Notes
+## Ethical and Practical Notes
 
 * The tool processes publicly available academic data (e.g., KTH DiVA).
 * No personal or sensitive data is collected or stored.
@@ -201,8 +221,10 @@ The tool accepts a CSV file with the following columns:
 
 
 
-## 10. Citation
+## Citation
 
 If re-using or extending this prototype, please cite:
 
-Bakhsh, H. (2025). *AI-Assisted Topic Modeling for Academic Research: Evaluating AI Adoption through the Lens of Interpretability, Trust, and Legitimacy* KTH Royal Institute of Technology.
+Bakhsh, H. (2025).  
+*AI-Assisted Topic Modeling for Academic Research: Evaluating AI Adoption through the Lens of Interpretability, Trust, and Legitimacy.*  
+KTH Royal Institute of Technology.
